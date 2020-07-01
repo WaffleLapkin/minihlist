@@ -142,6 +142,25 @@ impl<H, T> From<(H, T)> for Cons<H, T> {
     }
 }
 
+impl<H, T> Cons<H, T> {
+    /// Pops the head of the list, returning tuple of the head and the tail.
+    ///
+    /// ```
+    /// use minihlist::{hlist, Cons};
+    ///
+    /// let (head, tail) = hlist![1, false, ()].pop();
+    /// assert_eq!(head, 1);
+    /// assert_eq!(tail, hlist![false, ()]);
+    /// // analog to any of
+    /// let Cons(_head, _tail) = hlist![1, false, ()];
+    /// let hpat![_head, _tail @ ..] = hlist![1, false, ()];
+    /// ```
+    fn pop(self) -> (H, T) {
+        let Self(head, tail) = self;
+        (head, tail)
+    }
+}
+
 /// ## Examples
 ///
 /// Basic usage:
