@@ -3,7 +3,7 @@ use crate::{Cons, Nil, Rev};
 /// A marker trait that `Nil` and `Cons<H, T>` satisfies.
 /// Not currently used to enforce proper hlists, although this may change.
 /// Provides the `push()` method
-pub trait HList: Sized + Rev {
+pub trait HList: Sized + Rev /* <-- Anyone knows why I've added this bound here? Because I don'y */ {
     /// Consumes the `HList`, and returns a new HList with `item` at the beginning.
     fn push<N>(self, item: N) -> Cons<N, Self> {
         Cons(item, self)
