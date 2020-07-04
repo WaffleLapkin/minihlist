@@ -25,3 +25,11 @@ pub trait Unique {}
 impl Unique for Nil {}
 
 impl<H, T> Unique for Cons<H, T> where T: Exclude<H> + Unique {}
+
+/// Test for issue [#4](https://github.com/WaffleLapkin/minihlist/issues/4)
+#[test]
+fn hlist_with_tuple2() {
+    fn assert<T: Unique>() {}
+
+    assert::<crate::HList![String, (i32, i32)]>();
+}
