@@ -92,7 +92,7 @@ pub use len::Len;
 
 #[cfg(feature = "nightly")]
 pub use self::{
-    flatten::{Flatten, NotHList},
+    flatten::Flatten,
     exclude::Exclude,
     uniq::Unique,
 };
