@@ -1,4 +1,10 @@
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
 name: Continuous integration
 
@@ -14,6 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        
       - uses: actions-rs/toolchain@v1
         if: matrix.rust == 'stable' || matrix.rust == 'beta'
         with:
@@ -21,6 +28,7 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: clippy
+
       - uses: actions-rs/toolchain@v1
         if: matrix.rust == 'nightly'
         with:
@@ -28,42 +36,49 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: rustfmt, clippy
+      
       - name: stable/beta build 
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'stable' || matrix.rust == 'beta'
         with:
           command: build
-          args: --verbose --features "alloc"
+          args: --verbose --features "typenum,serde"
+      
       - name: nightly build 
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'nightly'
         with:
           command: build
           args: --verbose --all-features
+      
       - name: stable/beta test 
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'stable' || matrix.rust == 'beta'
         with:
           command: test
           args: --verbose --features "typenum,serde"
+      
       - name: nightly test
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'nightly'
         with:
           command: test
           args: --verbose --all-features
+      
       - name: stable/beta clippy
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'stable' || matrix.rust == 'beta'
         with:
           command: clippy
-          args: --all-targets --features "alloc" -- -D warnings
+          args: --all-targets --features "typenum,serde" -- -D warnings
+      
       - name: nightly clippy
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'nightly'
         with:
           command: clippy
           args: --all-targets --all-features -- -D warnings
+      
       - name: fmt
         uses: actions-rs/cargo@v1
         if: matrix.rust == 'nightly'
