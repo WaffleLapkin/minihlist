@@ -1,4 +1,4 @@
-use crate::{Nil, Cons, hlist};
+use crate::{hlist, Cons, Nil};
 
 /// Append operation on hlist
 pub trait Append<T> {

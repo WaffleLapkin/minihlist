@@ -3,7 +3,9 @@ use crate::{Cons, Nil, Rev};
 /// A marker trait that `Nil` and `Cons<H, T>` satisfies.
 /// Not currently used to enforce proper hlists, although this may change.
 /// Provides the `push()` method
-pub trait HList: Sized + Rev /* <-- Anyone knows why I've added this bound here? Because I don't */ {
+#[allow(clippy::len_without_is_empty)]
+pub trait HList: Sized + Rev /* <-- Anyone knows why I've added this bound here? Because I don't */
+{
     /// The lenght of the list
     ///
     /// ```
