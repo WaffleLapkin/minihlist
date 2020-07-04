@@ -1,4 +1,4 @@
-use crate::{Nil, Cons, Exclude};
+use crate::{Cons, Exclude, Nil};
 
 /// Marker trait that is implemented for `HList`s those have no repeating types.
 ///
@@ -24,10 +24,7 @@ pub trait Unique {}
 
 impl Unique for Nil {}
 
-impl<H, T> Unique for Cons<H, T>
-where
-    T: Exclude<H> + Unique,
-{}
+impl<H, T> Unique for Cons<H, T> where T: Exclude<H> + Unique {}
 
 /// Test for issue [#4](https://github.com/WaffleLapkin/minihlist/issues/4)
 #[test]

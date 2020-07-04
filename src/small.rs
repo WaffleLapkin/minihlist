@@ -1,4 +1,4 @@
-use crate::{Tuple, Nil, HList};
+use crate::{HList, Nil, Tuple};
 
 pub trait SmallHList: HList {
     type TupleRepr: Tuple;
@@ -13,7 +13,9 @@ impl SmallHList for Nil {
 
     fn into_tuple(self) -> Self::TupleRepr {}
 
-    fn from_tuple(_repr: Self::TupleRepr) -> Self { Nil }
+    fn from_tuple(_repr: Self::TupleRepr) -> Self {
+        Nil
+    }
 }
 
 macro_rules! impl_smallhlist {

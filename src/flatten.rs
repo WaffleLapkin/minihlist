@@ -1,4 +1,4 @@
-use crate::{Cons, Nil, Extend, HList};
+use crate::{Cons, Extend, Nil, HList};
 
 ///
 #[cfg_attr(docsrs, doc(cfg(feature = "nightly")))]
@@ -75,10 +75,7 @@ fn test() {
     use crate::hlist;
 
     let hlist = hlist![1, hlist![2, 3, 4], hlist![5, hlist![6, 7], hlist![8], 9]];
-    assert_eq!(
-        hlist.flatten().flatten(),
-        hlist![1, 2, 3, 4, 5, 6, 7, 8, 9]
-    );
+    assert_eq!(hlist.flatten().flatten(), hlist![1, 2, 3, 4, 5, 6, 7, 8, 9]);
 }
 
 /// Test for issue [#3](https://github.com/WaffleLapkin/minihlist/issues/3)
@@ -90,8 +87,5 @@ fn hlist_with_hlist_inside_struct() {
     struct Wrap(Nil);
 
     let hlist = hlist![Wrap(Nil), hlist![8]];
-    assert_eq!(
-        hlist.flatten(),
-        hlist![Wrap(Nil), 8]
-    );
+    assert_eq!(hlist.flatten(), hlist![Wrap(Nil), 8]);
 }

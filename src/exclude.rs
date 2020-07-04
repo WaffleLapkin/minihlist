@@ -1,4 +1,4 @@
-use crate::{Nil, Cons, HList};
+use crate::{Cons, Nil};
 
 /// Marker trait that indicates that `HList` doesn't include type `T`
 ///
@@ -28,7 +28,9 @@ impl<H, T, E> Exclude<E> for Cons<H, T>
 where
     Pair<H, E>: private::TypeNeq,
     T: Exclude<E>
-{}
+{
+}
+
 
 /// `Pair` is being used instead of `(_, _)` to prevent false negative errors with types those
 /// include `(T, T)` themselves (e.g.: `(i32, i32)`). See [#4] & test `hlist_with_tuple2` down
