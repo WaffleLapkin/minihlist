@@ -1,4 +1,4 @@
-use crate::{Cons, Extend, Nil, HList};
+use crate::{Cons, Extend, Nil};
 
 ///
 #[cfg_attr(docsrs, doc(cfg(feature = "nightly")))]
@@ -10,7 +10,7 @@ pub trait Flatten {
 
 impl<H, T> Flatten for Cons<H, T>
 where
-    Is<H>: NotHList,
+    private::Is<H>: private::NotHList,
     T: Flatten,
 {
     type Output = Cons<H, T::Output>;
@@ -53,22 +53,26 @@ impl Flatten for Nil {
     }
 }
 
-/// Trait implemented for all types except `Is<`[`Cons`]`>` and `Is<`[`Nil`]`>`.
-/// It is needed to implement traits differently for `HList`s and for other types.
-/// (e.g.: [`Flatten`] is implemented using this trait)
-///
-/// [`Cons`]: crate::Cons
-/// [`Nil`]: crate::Nil
-auto trait NotHList {}
-impl !NotHList for Is<Nil> {}
-impl<H, T> !NotHList for Is<Cons<H, T>> {}
+mod private {
+    use crate::{Cons, Nil};
 
-/// `Is` is being used to prevent false negative errors with types those include `Nil` or
-/// `Cons<_, _>` (e.g.: `struct Test(Nil)`). See [#3] & test `hlist_with_hlist_inside_struct` down
-/// below for more.
-///
-/// [#3]: https://github.com/WaffleLapkin/minihlist/issues/3
-struct Is<T>(T);
+    /// Trait implemented for all types except `Is<`[`Cons`]`>` and `Is<`[`Nil`]`>`.
+    /// It is needed to implement traits differently for `HList`s and for other types.
+    /// (e.g.: [`Flatten`] is implemented using this trait)
+    ///
+    /// [`Cons`]: crate::Cons
+    /// [`Nil`]: crate::Nil
+    pub auto trait NotHList {}
+    impl !NotHList for Is<Nil> {}
+    impl<H, T> !NotHList for Is<Cons<H, T>> {}
+
+    /// `Is` is being used to prevent false negative errors with types those include `Nil` or
+    /// `Cons<_, _>` (e.g.: `struct Test(Nil)`). See [#3] & test `hlist_with_hlist_inside_struct` down
+    /// below for more.
+    ///
+    /// [#3]: https://github.com/WaffleLapkin/minihlist/issues/3
+    pub struct Is<T>(T);
+}
 
 #[test]
 fn test() {

@@ -89,11 +89,7 @@ pub use self::{
 pub use len::Len;
 
 #[cfg(feature = "nightly")]
-pub use self::{
-    exclude::Exclude,
-    flatten::Flatten,
-    uniq::Unique,
-};
+pub use self::{exclude::Exclude, flatten::Flatten, uniq::Unique};
 
 /// The empty `HList`.
 ///
