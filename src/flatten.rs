@@ -1,4 +1,4 @@
-use crate::{Cons, Nil, Extend};
+use crate::{Cons, Extend, Nil};
 
 /// Trait implemented for all types except [`Cons`] and [`Nil`].
 /// It is needed to implement traits differently for `HList`s and for other types.
@@ -38,7 +38,7 @@ impl<T: Flatten> Flatten for Cons<Nil, T> {
 
 impl<HH, HT, T: Flatten> Flatten for Cons<Cons<HH, HT>, T>
 where
-    Cons<HH, HT>: Extend<T::Output>
+    Cons<HH, HT>: Extend<T::Output>,
 {
     type Output = <Cons<HH, HT> as Extend<T::Output>>::Output;
 
@@ -61,8 +61,5 @@ fn test() {
     use crate::hlist;
 
     let hlist = hlist![1, hlist![2, 3, 4], hlist![5, hlist![6, 7], hlist![8], 9]];
-    assert_eq!(
-        hlist.flatten().flatten(),
-        hlist![1, 2, 3, 4, 5, 6, 7, 8, 9]
-    );
+    assert_eq!(hlist.flatten().flatten(), hlist![1, 2, 3, 4, 5, 6, 7, 8, 9]);
 }

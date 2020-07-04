@@ -1,4 +1,4 @@
-use crate::{Nil, Cons};
+use crate::{Cons, Nil};
 
 /// Marker trait that indicates that `HList` doesn't include type `T`
 ///
@@ -27,8 +27,9 @@ impl<T> Exclude<T> for Nil {}
 impl<H, T, E> Exclude<E> for Cons<H, T>
 where
     (H, E): private::TypeNeq,
-    T: Exclude<E>
-{}
+    T: Exclude<E>,
+{
+}
 
 mod private {
     /// Marker trait **not** implemented for tuple of the same types - `(T, T)`.

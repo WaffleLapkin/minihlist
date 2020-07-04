@@ -47,10 +47,7 @@
 //!
 //!
 //! TODO
-#![cfg_attr(
-    feature = "nightly",
-    feature(optin_builtin_traits, negative_impls),
-)]
+#![cfg_attr(feature = "nightly", feature(optin_builtin_traits, negative_impls))]
 // we pass "--cfg docsrs" when building docs to add `This is supported on feature="..." only.`
 //
 // To properly build docs of this crate run
@@ -58,7 +55,6 @@
 // $ RUSTDOCFLAGS="--cfg docsrs" cargo doc --open --features "nightly"
 // ```
 #![cfg_attr(docsrs, feature(doc_cfg))]
-
 #![forbid(unsafe_code)]
 //#![deny(missing_docs)]
 
@@ -66,12 +62,12 @@
 /// Helper macros these are used in this lib
 mod local_macros;
 
+mod append;
 mod extend;
 mod hlist;
+mod rev;
 mod small;
 mod tuple;
-mod rev;
-mod append;
 
 #[cfg(feature = "nightly")]
 mod flatten;
@@ -85,15 +81,17 @@ mod exclude;
 #[cfg(feature = "typenum")]
 mod len;
 
-pub use self::{extend::Extend, hlist::HList, small::SmallHList, tuple::Tuple, rev::Rev, append::Append};
+pub use self::{
+    append::Append, extend::Extend, hlist::HList, rev::Rev, small::SmallHList, tuple::Tuple,
+};
 
 #[cfg(feature = "typenum")]
 pub use len::Len;
 
 #[cfg(feature = "nightly")]
 pub use self::{
-    flatten::{Flatten, NotHList},
     exclude::Exclude,
+    flatten::{Flatten, NotHList},
     uniq::Unique,
 };
 
@@ -155,7 +153,7 @@ impl<H, T> Cons<H, T> {
     /// let Cons(_head, _tail) = hlist![1, false, ()];
     /// let hpat![_head, _tail @ ..] = hlist![1, false, ()];
     /// ```
-    fn pop(self) -> (H, T) {
+    pub fn pop(self) -> (H, T) {
         let Self(head, tail) = self;
         (head, tail)
     }

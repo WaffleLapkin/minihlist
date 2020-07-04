@@ -1,4 +1,4 @@
-use crate::{Nil, Cons, hlist, Extend};
+use crate::{hlist, Cons, Extend, Nil};
 
 /// Reverse hlist.
 ///
@@ -19,7 +19,9 @@ pub trait Rev {
 impl Rev for Nil {
     type Output = Nil;
 
-    fn rev(self) -> Self::Output { self }
+    fn rev(self) -> Self::Output {
+        self
+    }
 }
 
 impl<H, T> Rev for Cons<H, T>
