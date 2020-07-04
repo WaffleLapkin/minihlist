@@ -89,11 +89,7 @@ pub use self::{
 pub use len::Len;
 
 #[cfg(feature = "nightly")]
-pub use self::{
-    exclude::Exclude,
-    flatten::Flatten,
-    uniq::Unique,
-};
+pub use self::{exclude::Exclude, flatten::Flatten, uniq::Unique};
 
 /// The empty `HList`.
 ///
@@ -144,7 +140,7 @@ impl<H, T> Cons<H, T> {
     /// Pops the head of the list, returning tuple of the head and the tail.
     ///
     /// ```
-    /// use minihlist::{hlist, Cons};
+    /// use minihlist::{hlist, hpat, Cons};
     ///
     /// let (head, tail) = hlist![1, false, ()].pop();
     /// assert_eq!(head, 1);

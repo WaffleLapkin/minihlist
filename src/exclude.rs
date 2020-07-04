@@ -26,25 +26,24 @@ impl<T> Exclude<T> for Nil {}
 
 impl<H, T, E> Exclude<E> for Cons<H, T>
 where
-    Pair<H, E>: private::TypeNeq,
-    T: Exclude<E>
+    private::Pair<H, E>: private::TypeNeq,
+    T: Exclude<E>,
 {
 }
 
-
-/// `Pair` is being used instead of `(_, _)` to prevent false negative errors with types those
-/// include `(T, T)` themselves (e.g.: `(i32, i32)`). See [#4] & test `hlist_with_tuple2` down
-/// below for more.
-///
-/// [#4]: https://github.com/WaffleLapkin/minihlist/issues/4
-struct Pair<A, B>(A, B);
-
 mod private {
+    /// `Pair` is being used instead of `(_, _)` to prevent false negative errors with types those
+    /// include `(T, T)` themselves (e.g.: `(i32, i32)`). See [#4] & test `hlist_with_tuple2` down
+    /// below for more.
+    ///
+    /// [#4]: https://github.com/WaffleLapkin/minihlist/issues/4
+    pub struct Pair<A, B>(A, B);
+
     /// Marker trait **not** implemented for pair of the same types - `Pair<T, T>`.
     ///
     /// If `Pair<A, B>: TypeNeq` then `A` != `B`
     pub auto trait TypeNeq {}
-    impl<T> !TypeNeq for super::Pair<T, T> {}
+    impl<T> !TypeNeq for Pair<T, T> {}
 }
 
 /// Test for issue [#4](https://github.com/WaffleLapkin/minihlist/issues/4)
@@ -53,5 +52,5 @@ fn hlist_with_tuple2() {
     fn assert<T: Exclude<E>, E>() {}
 
     type DefinitelyNotATuple = u64;
-    assert::<HList![(i32, i32)], DefinitelyNotATuple>();
+    assert::<crate::HList![(i32, i32)], DefinitelyNotATuple>();
 }
