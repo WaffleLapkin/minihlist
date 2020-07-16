@@ -72,12 +72,6 @@ mod tuple;
 #[cfg(feature = "nightly")]
 mod flatten;
 
-#[cfg(feature = "nightly")]
-mod uniq;
-
-#[cfg(feature = "nightly")]
-mod exclude;
-
 #[cfg(feature = "typenum")]
 mod len;
 
@@ -89,7 +83,7 @@ pub use self::{
 pub use len::Len;
 
 #[cfg(feature = "nightly")]
-pub use self::{exclude::Exclude, flatten::Flatten, uniq::Unique};
+pub use self::flatten::Flatten;
 
 /// The empty `HList`.
 ///
