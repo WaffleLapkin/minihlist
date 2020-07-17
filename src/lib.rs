@@ -64,7 +64,9 @@ mod local_macros;
 
 mod append;
 mod extend;
+mod get;
 mod hlist;
+mod remove;
 mod rev;
 mod small;
 mod tuple;
@@ -82,7 +84,8 @@ mod exclude;
 mod len;
 
 pub use self::{
-    append::Append, extend::Extend, hlist::HList, rev::Rev, small::SmallHList, tuple::Tuple,
+    append::Append, extend::Extend, get::Get, hlist::HList, remove::Remove, rev::Rev,
+    small::SmallHList, tuple::Tuple,
 };
 
 #[cfg(feature = "typenum")]
@@ -290,4 +293,10 @@ macro_rules! HList {
     };
     ($head:ty) => { $crate::HList![$head,] /* redirect to previous branch */ };
     () => { $crate::Nil };
+}
+
+/// Minimalistic analog to crates like `peano` and `typenum`
+mod succnum {
+    pub enum Zero {}
+    pub struct Succ<I>(I);
 }
