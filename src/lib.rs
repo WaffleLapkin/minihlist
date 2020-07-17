@@ -65,6 +65,7 @@ mod local_macros;
 mod append;
 mod extend;
 mod hlist;
+mod map;
 mod rev;
 mod small;
 mod tuple;
@@ -76,7 +77,8 @@ mod flatten;
 mod len;
 
 pub use self::{
-    append::Append, extend::Extend, hlist::HList, rev::Rev, small::SmallHList, tuple::Tuple,
+    append::Append, extend::Extend, hlist::HList, map::Map, rev::Rev, small::SmallHList,
+    tuple::Tuple,
 };
 
 #[cfg(feature = "typenum")]
