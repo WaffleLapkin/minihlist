@@ -13,3 +13,7 @@ typenum = { version = "1.0", optional = true }
 [features]
 # features those require nightly compiler
 nightly = []
+
+[package.metadata."docs.rs"]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
