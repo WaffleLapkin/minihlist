@@ -80,8 +80,8 @@ mod flatten;
 mod len;
 
 pub use self::{
-    append::Append, extend::Extend, fold::Fold,, get::Get, hlist::HList, remove::Remove, rev::Rev, rfold::FoldRight,
-    small::SmallHList, tuple::Tuple,
+    append::Append, extend::Extend, fold::Fold, get::Get, hlist::HList, remove::Remove, rev::Rev,
+    rfold::FoldRight, small::SmallHList, tuple::Tuple,
 };
 
 #[cfg(feature = "typenum")]
