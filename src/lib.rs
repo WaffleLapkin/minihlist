@@ -65,7 +65,9 @@ mod local_macros;
 mod append;
 mod extend;
 mod fold;
+mod get;
 mod hlist;
+mod remove;
 mod rev;
 mod rfold;
 mod small;
@@ -78,7 +80,7 @@ mod flatten;
 mod len;
 
 pub use self::{
-    append::Append, extend::Extend, fold::Fold, hlist::HList, rev::Rev, rfold::FoldRight,
+    append::Append, extend::Extend, fold::Fold,, get::Get, hlist::HList, remove::Remove, rev::Rev, rfold::FoldRight,
     small::SmallHList, tuple::Tuple,
 };
 
@@ -287,4 +289,10 @@ macro_rules! HList {
     };
     ($head:ty) => { $crate::HList![$head,] /* redirect to previous branch */ };
     () => { $crate::Nil };
+}
+
+/// Minimalistic analog to crates like `peano` and `typenum`
+mod succnum {
+    pub enum Zero {}
+    pub struct Succ<I>(I);
 }
