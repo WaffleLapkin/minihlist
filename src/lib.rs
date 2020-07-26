@@ -52,9 +52,9 @@
 //
 // To properly build docs of this crate run
 // ```console
-// $ RUSTDOCFLAGS="--cfg docsrs" cargo doc --open --features "nightly"
+// $ RUSTDOCFLAGS="--cfg docsrs" cargo doc --open --all-features
 // ```
-#![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(all(docsrs, feature = "nightly"), feature(doc_cfg))]
 #![forbid(unsafe_code)]
 //#![deny(missing_docs)]
 
@@ -64,9 +64,13 @@ mod local_macros;
 
 mod append;
 mod extend;
+mod fold;
+mod get;
 mod hlist;
 mod map;
+mod remove;
 mod rev;
+mod rfold;
 mod small;
 mod tuple;
 
@@ -77,8 +81,8 @@ mod flatten;
 mod len;
 
 pub use self::{
-    append::Append, extend::Extend, hlist::HList, map::Map, rev::Rev, small::SmallHList,
-    tuple::Tuple,
+    append::Append, extend::Extend, fold::Fold, get::Get, hlist::HList, map::Map, remove::Remove, rev::Rev,
+    rfold::FoldRight, small::SmallHList, tuple::Tuple,
 };
 
 #[cfg(feature = "typenum")]
@@ -286,4 +290,10 @@ macro_rules! HList {
     };
     ($head:ty) => { $crate::HList![$head,] /* redirect to previous branch */ };
     () => { $crate::Nil };
+}
+
+/// Minimalistic analog to crates like `peano` and `typenum`
+mod succnum {
+    pub enum Zero {}
+    pub struct Succ<I>(I);
 }
