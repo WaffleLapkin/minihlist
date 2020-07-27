@@ -48,7 +48,7 @@ use crate::{pure, Cons, Nil};
 ///     |f| (f * 2.) as i32,
 ///     &mut |i| format!("{}", i), // <-- `FnMut` here
 /// ]);
-/// assert_eq!(res, hlist![3, String::from("12"), String::from("16")]);
+/// assert_eq!(res, hlist![3, "12", "16"]);
 /// ```
 
 pub trait Map<F> {
@@ -148,5 +148,5 @@ fn mixed() {
         &mut |i| i * 2,
     ];
 
-    assert_eq!(list.map(f), hlist!['X', String::from("X"), 4, 8, 16]);
+    assert_eq!(list.map(f), hlist!['X', "X", 4, 8, 16]);
 }

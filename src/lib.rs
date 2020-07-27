@@ -101,7 +101,7 @@ pub struct Nil;
 /// An `HList` with `H` at position 0, and `T` as the rest of the list.
 ///
 /// See [crate documentation](./index.html) for more.
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Default)]
+#[derive(Clone, Copy, Eq, Ord, Hash, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Cons<H, T>(pub H, pub T);
 
@@ -152,6 +152,29 @@ impl<H, T> Cons<H, T> {
     pub fn pop(self) -> (H, T) {
         let Self(head, tail) = self;
         (head, tail)
+    }
+}
+
+impl<RH, RT, H, T> PartialEq<Cons<RH, RT>> for Cons<H, T>
+where
+    H: PartialEq<RH>,
+    T: PartialEq<RT>,
+{
+    fn eq(&self, other: &Cons<RH, RT>) -> bool {
+        self.0 == other.0 && self.1 == other.1
+    }
+}
+
+impl<RH, RT, H, T> PartialOrd<Cons<RH, RT>> for Cons<H, T>
+where
+    H: PartialOrd<RH>,
+    T: PartialOrd<RT>,
+{
+    fn partial_cmp(&self, other: &Cons<RH, RT>) -> Option<core::cmp::Ordering> {
+        match self.0.partial_cmp(&other.0) {
+            None | Some(core::cmp::Ordering::Equal) => self.1.partial_cmp(&other.1),
+            res @ Some(_) => res,
+        }
     }
 }
 
