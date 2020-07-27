@@ -47,7 +47,6 @@
 //!
 //!
 //! TODO
-#![cfg_attr(feature = "nightly", feature(optin_builtin_traits, negative_impls))]
 // we pass "--cfg docsrs" when building docs to add `This is supported on feature="..." only.`
 //
 // To properly build docs of this crate run
@@ -74,9 +73,6 @@ mod rfold;
 mod small;
 mod tuple;
 
-#[cfg(feature = "nightly")]
-mod flatten;
-
 #[cfg(feature = "typenum")]
 mod len;
 
@@ -87,9 +83,6 @@ pub use self::{
 
 #[cfg(feature = "typenum")]
 pub use len::Len;
-
-#[cfg(feature = "nightly")]
-pub use self::flatten::Flatten;
 
 /// The empty `HList`.
 ///
